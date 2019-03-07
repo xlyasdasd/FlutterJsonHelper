@@ -10,7 +10,6 @@ class ClassGenerator {
     val classes = mutableMapOf<String, List<Param>>()
 
     fun generate(name: String, jsonText: String): String {
-        name.replace("_","")
         return try {
             val fields = Param.json2Params(JsonParser().parse(jsonText).asJsonObject)
             "class $name {\n${printClassWithParams(fields, 2, name)}\n}\n${buildClasses()}"
@@ -102,8 +101,8 @@ class ClassGenerator {
             sb.append("this").append(".").append(it.value)
             sb.append(", ")
         }
-        if (sb.endsWith(", ")){
-            sb.delete(sb.lastIndexOf(", "),sb.length)
+        if (sb.endsWith(", ")) {
+            sb.delete(sb.lastIndexOf(", "), sb.length)
         }
         sb.append("});\n")
 
