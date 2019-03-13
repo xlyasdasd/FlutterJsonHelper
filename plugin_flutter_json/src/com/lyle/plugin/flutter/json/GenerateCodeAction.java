@@ -18,6 +18,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiUtilBase;
 import jdk.nashorn.internal.parser.JSONParser;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
@@ -76,6 +77,22 @@ public class GenerateCodeAction extends AnAction {
 //        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //        jFrame.setVisible(true);
 //        jFrame.add(frameView.build());
+    }
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        super.update(e);
+        e.getPresentation().setEnabled(false);
+        Project project = e.getProject();
+        if (project != null) {
+            Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
+            PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
+            if (file != null) {
+                String fileName = file.getName();
+                if (fileName.contains(".dart")) {
+                    e.getPresentation().setEnabled(true);
+                }
+            }
+        }
     }
     private String parseClassName(String fileContent) {
         if (fileContent == null || fileContent.equals("")) {

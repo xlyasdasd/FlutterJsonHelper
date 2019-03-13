@@ -135,7 +135,7 @@ class ClassGenerator {
         }
 
         objectList.forEach {
-            sb.append("\n").append(tempSpaceStr).append("this").append(".").append(it.camelKey).append(" = ").append(it.key).append(".fromJson(json['").append(it.value).append("']);")
+            sb.append("\n").append(tempSpaceStr).append("this").append(".").append(it.camelKey).append(" = ").append("json['").append(it.value).append("'] != null? ").append(it.key).append(".fromJson(json['").append(it.value).append("']) : null;")
         }
 
         listList.forEach {
